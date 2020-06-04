@@ -1,13 +1,16 @@
 /*
  * @Date: 2020-06-04 09:55:48
  * @LastEditors: jun
- * @LastEditTime: 2020-06-04 15:06:18
+ * @LastEditTime: 2020-06-04 15:37:30
  * @FilePath: \vue-express\server\routes\demo.js
  */
 var express = require('express');
 var router = express.Router();
 var db = require('../conf/db');
 const sql = require('../until/sql');
+
+const token = require('jsonwebtoken');
+// console.log(token);
 
 router.get('/', function (req, res, next) {
   // console.log(req.params);

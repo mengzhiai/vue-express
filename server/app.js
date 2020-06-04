@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-05-21 14:19:06
  * @LastEditors: jun
- * @LastEditTime: 2020-06-04 11:31:19
+ * @LastEditTime: 2020-06-04 15:52:25
  * @FilePath: \vue-express\server\app.js
  */
 var createError = require('http-errors');
@@ -12,9 +12,12 @@ var logger = require('morgan');
 // 引入json解析中间件
 var bodyParser = require('body-parser');
 
+//引入 jwt
+const expressJWT = require('express-jwt');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var testRouter = require('./routes/test');
+var loginRouter = require('./routes/login');
 var demoRouter = require('./routes/demo');
 
 var app = express();
@@ -29,9 +32,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//使用bodyParser
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.urlencoded());
+
+
+app.use(expressJWT({
+  secret: 'secret12345'  // 签名的密钥 或 PublicKey
+}).unless({
+  path: ['/login']  // 指定路径不经过 Token 解析
+}))
 
 
 //解决跨域
@@ -58,7 +70,7 @@ app.use(allowCors); //使用跨域中间件
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/test', testRouter);
+app.use('/login', loginRouter);
 app.use('/demo', demoRouter);
 
 
