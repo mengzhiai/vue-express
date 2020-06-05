@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-05-21 14:05:42
  * @LastEditors: jun
- * @LastEditTime: 2020-06-05 16:07:17
+ * @LastEditTime: 2020-06-05 17:00:23
  * @FilePath: \vue-express\src\views\Home.vue
 --> 
 <template>
@@ -85,6 +85,9 @@ export default {
         // console.log(res);
         this.tableData = res.data.data;
         this.total = res.data.total;
+      })
+      this.axios.get('/api').then(res=>{
+        
       })
     },
     sizeChange(val) {

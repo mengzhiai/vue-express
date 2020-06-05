@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-05-21 14:19:06
  * @LastEditors: jun
- * @LastEditTime: 2020-06-05 11:14:10
+ * @LastEditTime: 2020-06-05 17:14:48
  * @FilePath: \vue-express\server\app.js
  */
 var createError = require('http-errors');
@@ -11,6 +11,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // 引入json解析中间件
 var bodyParser = require('body-parser');
+//引入express-session
+var session = require('express-session');
 
 //引入 jwt
 const expressJWT = require('express-jwt');
@@ -37,6 +39,49 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// 使用 session 中间件
+app.use(session({
+  secret :  'secret', // 对session id 相关的cookie 进行签名
+  resave : true,
+  saveUninitialized: false, // 是否保存未初始化的会话
+  cookie : {
+      maxAge : 1000 * 60 * 3, // 设置 session 的有效时间，单位毫秒
+  },
+}));
+
+// 用户登录
+app.post('/login', function(req, res){
+  if(req.body.username == 'admin' && req.body.pwd == 'admin123'){
+      req.session.userName = req.body.username; // 登录成功，设置 session
+      // res.redirect('/');
+      console.log(req.session.userName);
+      res.json({
+        message: '登录成功'
+      })
+  }
+  else{
+      res.json({ret_code : 1, ret_msg : '账号或密码错误'});// 若登录失败，重定向到登录页面
+  }
+});
+
+
+// 获取主页
+app.get('/', function (req, res) {
+  console.log('userName',req.session.userName);
+  if(req.session.userName){  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+      // res.render('home',{username : req.session.userName});
+      res.json({
+        data: '我是测试'
+      })
+  }else{
+      res.redirect('login');
+  }
+})
+
+ 
+
 
 
 /* app.use(expressJWT({
