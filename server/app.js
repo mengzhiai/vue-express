@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-05-21 14:19:06
  * @LastEditors: jun
- * @LastEditTime: 2020-06-04 15:52:25
+ * @LastEditTime: 2020-06-05 11:14:10
  * @FilePath: \vue-express\server\app.js
  */
 var createError = require('http-errors');
@@ -36,14 +36,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //使用bodyParser
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(expressJWT({
+/* app.use(expressJWT({
   secret: 'secret12345'  // 签名的密钥 或 PublicKey
 }).unless({
   path: ['/login']  // 指定路径不经过 Token 解析
-}))
+})) */
 
 
 //解决跨域

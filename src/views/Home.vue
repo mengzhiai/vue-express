@@ -1,11 +1,14 @@
 <!--
  * @Date: 2020-05-21 14:05:42
  * @LastEditors: jun
- * @LastEditTime: 2020-06-04 15:49:23
+ * @LastEditTime: 2020-06-05 11:24:26
  * @FilePath: \vue-express\src\views\Home.vue
 --> 
 <template>
 <div>
+  <div>
+    <el-input v-model="searchData" size="small" placeholder="" @keyup.enter.native="init"></el-input>
+  </div>
   <el-table :data="tableData" border stripe>
     <el-table-column prop="name" label="姓名">
     </el-table-column>
@@ -56,6 +59,7 @@ export default {
       pageNum: 1,
       pageSize: 10,
       optionDialog: false,
+      searchData: ''
     }
   },
   mounted() {
@@ -66,7 +70,8 @@ export default {
     init() {
       let data = {
         pageNum: this.pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        searchData: this.searchData
       }
       this.axios.get('/api/demo', {
         params: data

@@ -1,7 +1,7 @@
 /*
  * @Date: 2020-06-04 09:55:48
  * @LastEditors: jun
- * @LastEditTime: 2020-06-04 15:37:30
+ * @LastEditTime: 2020-06-05 11:27:42
  * @FilePath: \vue-express\server\routes\demo.js
  */
 var express = require('express');
@@ -18,10 +18,15 @@ router.get('/', function (req, res, next) {
   let pageNum = parseInt(req.param('pageNum'));
   let pageSize = parseInt(req.param('pageSize'));
   let start = (pageNum - 1) * pageSize;
-  console.log(start,pageNum, pageSize);
+  let searchData = req.param('searchData');
+  console.log('searchData',searchData);
+  // console.log(start,pageNum, pageSize);
   db.query('select count(*) as total from list', [], (data) => {
     let total = data[0].total;
-    let sqlList = `select * from list limit ${start},${pageSize}`
+    // let sqlList = `select * from list limit ${start},${pageSize}`
+    // let sqlList = `select * from list where name like '%${searchData}%'`
+    let sqlList = `select * from list where name like '%${searchData}%' limit ${start},${pageSize}`
+    console.log(sqlList);
     db.query(sqlList, [], function (data, err) {
       // console.log(results);
       res.json({
