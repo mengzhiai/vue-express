@@ -1,7 +1,7 @@
 <!--
  * @Date: 2020-05-21 14:05:42
  * @LastEditors: jun
- * @LastEditTime: 2020-06-05 15:57:42
+ * @LastEditTime: 2020-06-05 16:07:17
  * @FilePath: \vue-express\src\views\Home.vue
 --> 
 <template>
@@ -31,7 +31,6 @@
   </el-table>
   <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page="pageNum" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total" background>
   </el-pagination>
-
   <el-dialog :visible.sync="optionDialog" width="400px" @close="closeDialog">
     <el-form :model="form" ref="form" label-width="80px">
       <el-form-item label="姓名:">
